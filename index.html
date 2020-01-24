@@ -1,0 +1,465 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Personal Emergency Transmitter API Reference</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-c5541673.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;java&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-c5431569.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="java">java</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#intents" class="toc-h1 toc-link" data-title="Intents">Intents</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#commands" class="toc-h2 toc-link" data-title="Commands">Commands</a>
+                  </li>
+                  <li>
+                    <a href="#events" class="toc-h2 toc-link" data-title="Events">Events</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#scanning-for-devices" class="toc-h1 toc-link" data-title="Scanning for Devices">Scanning for Devices</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#start-scanning" class="toc-h2 toc-link" data-title="Start Scanning">Start Scanning</a>
+                  </li>
+                  <li>
+                    <a href="#device-found" class="toc-h2 toc-link" data-title="Device Found">Device Found</a>
+                  </li>
+                  <li>
+                    <a href="#stop-scanning" class="toc-h2 toc-link" data-title="Stop Scanning">Stop Scanning</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#clear-emergency" class="toc-h1 toc-link" data-title="Clear Emergency">Clear Emergency</a>
+          </li>
+          <li>
+            <a href="#device-status" class="toc-h1 toc-link" data-title="Device Status">Device Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#status-results" class="toc-h2 toc-link" data-title="Status results">Status results</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#other-device-events" class="toc-h1 toc-link" data-title="Other Device Events">Other Device Events</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#device-disconnected" class="toc-h2 toc-link" data-title="Device Disconnected">Device Disconnected</a>
+                  </li>
+                  <li>
+                    <a href="#device-connected" class="toc-h2 toc-link" data-title="Device Connected">Device Connected</a>
+                  </li>
+                  <li>
+                    <a href="#emergency-detected" class="toc-h2 toc-link" data-title="Emergency Detected">Emergency Detected</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>This document describes the API for accessing the Personal Emergency Transmitter device from third party Android applications.  Requires the PET <a href="https://play.google.com/store/apps/details?id=com.datasoft.pet">application</a>.</p>
+<h1 id='intents'>Intents</h1><pre class="highlight java tab-java"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">"com.datasoft.pet"</span><span class="o">,</span> <span class="s">"com.datasoft.pet.ConnectionService"</span><span class="o">);</span>
+</code></pre>
+<p>Communications to the PET ConnectionService is done by <code>startService</code> with an explicit intent.  Use of implicit intents with intent filters is no longer available in Android 5.0+.  Use <code>Intent.setClassName</code> with a package name of <code>com.datasoft.pet</code> and a class name of <code>com.datasoft.pet.ConnectionService</code> for all commands going to the PET ConnectionService.  The service returns all responses as Broadcast Intents.</p>
+<h3 id='commands'>Commands</h3>
+<p>Commands supported so far by the service:</p>
+
+<ul>
+<li>com.datasoft.pet.action.GET_STATUS</li>
+<li>com.datasoft.pet.action.START_SCAN</li>
+<li>com.datasoft.pet.action.STOP_SCAN</li>
+<li>com.datasoft.pet.action.CLEAR_EMERGENCY</li>
+</ul>
+<h3 id='events'>Events</h3>
+<p>Events reported by the service (broadcast intents):</p>
+
+<ul>
+<li>com.datasoft.pet.event.UPDATE_STATUS</li>
+<li>com.datasoft.pet.event.DEVICE_FOUND</li>
+<li>com.datasoft.pet.event.DEVICE_CONNECTED</li>
+<li>com.datasoft.pet.event.DEVICE_DISCONNECTED</li>
+<li>com.datasoft.pet.event.EMERGENCY</li>
+</ul>
+<h1 id='scanning-for-devices'>Scanning for Devices</h1><h2 id='start-scanning'>Start Scanning</h2>
+<p>Use the com.datasoft.pet.action.START_SCAN action to scan for devices.  This will disconnect any currently connected devices while scanning.  There is currently not terribly useful because there isn&#39;t a way to select the PET devices using the API.</p>
+<pre class="highlight java tab-java"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="s">"com.datasoft.pet.action.START_SCAN"</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">"com.datasoft.pet"</span><span class="o">,</span> <span class="s">"com.datasoft.pet.ConnectionService"</span><span class="o">);</span>
+<span class="n">startService</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</code></pre><h2 id='device-found'>Device Found</h2>
+<p>While scanning, devices are returned with a BroadcastIntent with action com.datasoft.pet.event.DEVICE_FOUND.  The service reports every device advertisement seen, it&#39;s up to the client to keep track of duplicates.  Device name and address are included in the Intent&#39;s extras bundle.</p>
+<h3 id='device_found-parameters'>DEVICE_FOUND parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>device-address</td>
+<td>String</td>
+<td>BLE address of the PET device</td>
+</tr>
+<tr>
+<td>device-name</td>
+<td>String</td>
+<td>Advertised name of the PET device</td>
+</tr>
+</tbody></table>
+<pre class="highlight java tab-java"><code><span class="n">BroadcastReceiver</span> <span class="n">deviceFoundReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">address</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="s">"device-address"</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="s">"device-name"</span><span class="o">);</span>
+        <span class="c1">// Do stuff..</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">IntentFilter</span> <span class="n">deviceFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="s">"com.datasoft.pet.event.DEVICE_FOUND"</span><span class="o">);</span>
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">deviceFoundReceiver</span><span class="o">,</span> <span class="n">deviceFilter</span><span class="o">);</span>
+</code></pre><h2 id='stop-scanning'>Stop Scanning</h2>
+<p>To stop scanning for devices, use a com.datasoft.pet.action.STOP_SCAN action.</p>
+<pre class="highlight java tab-java"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="s">"com.datasoft.pet.action.STOP_SCAN"</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">"com.datasoft.pet"</span><span class="o">,</span> <span class="s">"com.datasoft.pet.ConnectionService"</span><span class="o">);</span>
+<span class="n">startService</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</code></pre><h1 id='clear-emergency'>Clear Emergency</h1>
+<p>To clear the emergency status on the device, use a com.datasoft.pet.action.CLEAR_EMERGENCY action.  This should generally be done as the result of the user purposefully pressing a &quot;Clear Emergency&quot; button on the application or something requiring user interaction.  Note that once an emergency is triggered on the PET device, it can not be cleared from the PET device for one minute.  This is to avoid accidentally clearing an actual emergency, or an attacker clearing the emergency status.  During this time, the emergency can be cleared from the PET application, or through this API call.</p>
+<pre class="highlight java tab-java"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="s">"com.datasoft.pet.action.CLEAR_EMERGENCY"</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">"com.datasoft.pet"</span><span class="o">,</span> <span class="s">"com.datasoft.pet.ConnectionService"</span><span class="o">);</span>
+<span class="n">startService</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</code></pre><h1 id='device-status'>Device Status</h1>
+<p>To get the status of the PET device, send a com.datasoft.pet.action.GET_STATUS action.</p>
+<pre class="highlight java tab-java"><code><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="s">"com.datasoft.pet.action.GET_STATUS"</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">"com.datasoft.pet"</span><span class="o">,</span> <span class="s">"com.datasoft.pet.ConnectionService"</span><span class="o">);</span>
+<span class="n">startService</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</code></pre><h2 id='status-results'>Status results</h2>
+<p>The service sends a com.datasoft.pet.event.UPDATE_STATUS BroadcastIntent in response.  Device status fields are in the Intent&#39;s extras bundle.</p>
+<h3 id='update_status-parameters'>UPDATE_STATUS parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>device-name</td>
+<td>String</td>
+<td>Advertised name of PET device</td>
+</tr>
+<tr>
+<td>device-address</td>
+<td>String</td>
+<td>BLE address of front device</td>
+</tr>
+<tr>
+<td>device-connected</td>
+<td>boolean</td>
+<td>True if phone is currently connected to this device</td>
+</tr>
+<tr>
+<td>device-battery</td>
+<td>int</td>
+<td>Battery level of device in percent</td>
+</tr>
+<tr>
+<td>device-emergency</td>
+<td>int</td>
+<td>Emergency status: 0=OK, 1=Emergency</td>
+</tr>
+</tbody></table>
+<pre class="highlight java tab-java"><code><span class="n">BroadcastReceiver</span> <span class="n">statusReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="s">"device-name"</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">address</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getStringExtra</span><span class="o">(</span><span class="s">"device-address"</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">connected</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span><span class="s">"device-connected"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">battery</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getIntExtra</span><span class="o">(</span><span class="s">"device-battery"</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">emergency</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getIntExtra</span><span class="o">(</span><span class="s">"device-emergency"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="c1">// Do stuff..</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">IntentFilter</span> <span class="n">statusFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="s">"com.datasoft.pet.event.UPDATE_STATUS"</span><span class="o">);</span>
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">statusReceiver</span><span class="o">,</span> <span class="n">statusFilter</span><span class="o">);</span>
+</code></pre><h1 id='other-device-events'>Other Device Events</h1>
+<p>These events are broadcast based on device events and not as a response to an action.</p>
+<h2 id='device-disconnected'>Device Disconnected</h2>
+<p>The com.datasoft.pet.event.DEVICE_DISCONNECTED event notifies the client that the PET device is no longer connected to the service.  For example, when the phone goes out of range of the device.  No extra data is included in this intent.</p>
+<pre class="highlight java tab-java"><code><span class="n">BroadcastReceiver</span> <span class="n">disconnectedReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"PET Device has been disconnected"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">IntentFilter</span> <span class="n">disconnectedFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="s">"com.datasoft.pet.event.DEVICE_DISCONNECTED"</span><span class="o">);</span>
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">disconnectedReceiver</span><span class="o">,</span> <span class="n">disconnectedFilter</span><span class="o">);</span>
+</code></pre><h2 id='device-connected'>Device Connected</h2>
+<p>The com.datasoft.pet.event.DEVICE_CONNECTED event notifies the client that the PET device is connected to the service.  No extra data is included in this intent.</p>
+<pre class="highlight java tab-java"><code><span class="n">BroadcastReceiver</span> <span class="n">connectedReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"PET Device has been connected"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">IntentFilter</span> <span class="n">connectedFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="s">"com.datasoft.pet.event.DEVICE_CONNECTED"</span><span class="o">);</span>
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">connectedReceiver</span><span class="o">,</span> <span class="n">connectedFilter</span><span class="o">);</span>
+</code></pre><h2 id='emergency-detected'>Emergency Detected</h2>
+<p>The com.datasoft.pet.event.EMERGENCY event notifies the client that the user has triggered an emergency on the PET device.</p>
+<h3 id='emergency-parameters'>EMERGENCY parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>emergency</td>
+<td>int</td>
+<td>0=OK, 1=Emergency</td>
+</tr>
+</tbody></table>
+<pre class="highlight java tab-java"><code><span class="n">BroadcastReceiver</span> <span class="n">emergencyReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">emergency</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getIntExtra</span><span class="o">(</span><span class="s">"device-emergency"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="c1">// Do stuff</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">IntentFilter</span> <span class="n">emergencyFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="s">"com.datasoft.pet.event.EMERGENCY"</span><span class="o">);</span>
+<span class="n">registerReceiver</span><span class="o">(</span><span class="n">emergencyReceiver</span><span class="o">,</span> <span class="n">emergencyFilter</span><span class="o">);</span>
+</code></pre>
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="java">java</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
