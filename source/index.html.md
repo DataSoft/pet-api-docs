@@ -1,239 +1,196 @@
 ---
-title: API Reference
+title: Personal Emergency Transmitter API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+language_tabs:
+  - java
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+This document describes the API for accessing the Personal Emergency Transmitter device from third party Android applications.  Requires the PET [application](https://play.google.com/store/apps/details?id=com.datasoft.pet).
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+# Intents
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
-
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```java
+Intent intent = new Intent();
+intent.setClassName("com.datasoft.pet", "com.datasoft.pet.ConnectionService");
 ```
 
-```python
-import kittn
+Communications to the PET ConnectionService is done by `startService` with an explicit intent.  Use of implicit intents with intent filters is no longer available in Android 5.0+.  Use `Intent.setClassName` with a package name of `com.datasoft.pet` and a class name of `com.datasoft.pet.ConnectionService` for all commands going to the PET ConnectionService.  The service returns all responses as Broadcast Intents.
 
-api = kittn.authorize('meowmeowmeow')
+### Commands
+Commands supported so far by the service:
+
+* com.datasoft.pet.action.GET_STATUS
+* com.datasoft.pet.action.START_SCAN
+* com.datasoft.pet.action.STOP_SCAN
+* com.datasoft.pet.action.CLEAR_EMERGENCY
+
+### Events
+Events reported by the service (broadcast intents):
+
+* com.datasoft.pet.event.UPDATE_STATUS
+* com.datasoft.pet.event.DEVICE_FOUND
+* com.datasoft.pet.event.DEVICE_CONNECTED
+* com.datasoft.pet.event.DEVICE_DISCONNECTED
+* com.datasoft.pet.event.EMERGENCY
+
+# Scanning for Devices
+
+## Start Scanning
+
+Use the com.datasoft.pet.action.START_SCAN action to scan for devices.  This will disconnect any currently connected devices while scanning.  There is currently not terribly useful because there isn't a way to select the PET devices using the API.
+
+```java
+Intent intent = new Intent("com.datasoft.pet.action.START_SCAN");
+intent.setClassName("com.datasoft.pet", "com.datasoft.pet.ConnectionService");
+startService(intent);
 ```
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+## Device Found
+
+While scanning, devices are returned with a BroadcastIntent with action com.datasoft.pet.event.DEVICE_FOUND.  The service reports every device advertisement seen, it's up to the client to keep track of duplicates.  Device name and address are included in the Intent's extras bundle.
+
+### DEVICE_FOUND parameters
+
+Parameter | Type | Description
+--------- | ---- | -----------
+device-address | String | BLE address of the PET device
+device-name | String | Advertised name of the PET device
+
+```java
+BroadcastReceiver deviceFoundReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String address = intent.getStringExtra("device-address");
+        String name = intent.getStringExtra("device-name");
+        // Do stuff..
+    }
+};
+IntentFilter deviceFilter = new IntentFilter("com.datasoft.pet.event.DEVICE_FOUND");
+registerReceiver(deviceFoundReceiver, deviceFilter);
 ```
 
-```javascript
-const kittn = require('kittn');
+## Stop Scanning
 
-let api = kittn.authorize('meowmeowmeow');
+To stop scanning for devices, use a com.datasoft.pet.action.STOP_SCAN action.
+
+```java
+Intent intent = new Intent("com.datasoft.pet.action.STOP_SCAN");
+intent.setClassName("com.datasoft.pet", "com.datasoft.pet.ConnectionService");
+startService(intent);
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+# Clear Emergency
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+To clear the emergency status on the device, use a com.datasoft.pet.action.CLEAR_EMERGENCY action.  This should generally be done as the result of the user purposefully pressing a "Clear Emergency" button on the application or something requiring user interaction.  Note that once an emergency is triggered on the PET device, it can not be cleared from the PET device for one minute.  This is to avoid accidentally clearing an actual emergency, or an attacker clearing the emergency status.  During this time, the emergency can be cleared from the PET application, or through this API call.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```java
+Intent intent = new Intent("com.datasoft.pet.action.CLEAR_EMERGENCY");
+intent.setClassName("com.datasoft.pet", "com.datasoft.pet.ConnectionService");
+startService(intent);
 ```
 
-```python
-import kittn
+# Device Status
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+To get the status of the PET device, send a com.datasoft.pet.action.GET_STATUS action.
+
+```java
+Intent intent = new Intent("com.datasoft.pet.action.GET_STATUS");
+intent.setClassName("com.datasoft.pet", "com.datasoft.pet.ConnectionService");
+startService(intent);
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+## Status results
+
+The service sends a com.datasoft.pet.event.UPDATE_STATUS BroadcastIntent in response.  Device status fields are in the Intent's extras bundle.
+
+### UPDATE_STATUS parameters
+
+Parameter | Type | Description
+--------- | ---- | -----------
+device-name | String | Advertised name of PET device
+device-address | String | BLE address of front device
+device-connected | boolean | True if phone is currently connected to this device
+device-battery | int | Battery level of device in percent
+device-emergency | int | Emergency status: 0=OK, 1=Emergency
+
+```java
+BroadcastReceiver statusReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String name = intent.getStringExtra("device-name");
+        String address = intent.getStringExtra("device-address");
+        boolean connected = intent.getBooleanExtra("device-connected", false);
+        int battery = intent.getIntExtra("device-battery", -1);
+        int emergency = intent.getIntExtra("device-emergency", 0);
+
+        // Do stuff..
+    }
+};
+IntentFilter statusFilter = new IntentFilter("com.datasoft.pet.event.UPDATE_STATUS");
+registerReceiver(statusReceiver, statusFilter);
 ```
 
-```javascript
-const kittn = require('kittn');
+# Other Device Events
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+These events are broadcast based on device events and not as a response to an action.
+
+## Device Disconnected
+
+The com.datasoft.pet.event.DEVICE_DISCONNECTED event notifies the client that the PET device is no longer connected to the service.  For example, when the phone goes out of range of the device.  No extra data is included in this intent.
+
+```java
+BroadcastReceiver disconnectedReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "PET Device has been disconnected");
+    }
+};
+IntentFilter disconnectedFilter = new IntentFilter("com.datasoft.pet.event.DEVICE_DISCONNECTED");
+registerReceiver(disconnectedReceiver, disconnectedFilter);
 ```
 
-> The above command returns JSON structured like this:
+## Device Connected
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+The com.datasoft.pet.event.DEVICE_CONNECTED event notifies the client that the PET device is connected to the service.  No extra data is included in this intent.
+
+```java
+BroadcastReceiver connectedReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "PET Device has been connected");
+    }
+};
+IntentFilter connectedFilter = new IntentFilter("com.datasoft.pet.event.DEVICE_CONNECTED");
+registerReceiver(connectedReceiver, connectedFilter);
 ```
 
-This endpoint retrieves all kittens.
+## Emergency Detected
 
-### HTTP Request
+The com.datasoft.pet.event.EMERGENCY event notifies the client that the user has triggered an emergency on the PET device.
 
-`GET http://example.com/api/kittens`
+### EMERGENCY parameters
 
-### Query Parameters
+Parameter | Type | Description
+--------- | ---- | -----------
+emergency | int | 0=OK, 1=Emergency
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+```java
+BroadcastReceiver emergencyReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        int emergency = intent.getIntExtra("device-emergency", 0);
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+        // Do stuff
+    }
+};
+IntentFilter emergencyFilter = new IntentFilter("com.datasoft.pet.event.EMERGENCY");
+registerReceiver(emergencyReceiver, emergencyFilter);
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
